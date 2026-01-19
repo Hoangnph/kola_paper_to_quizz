@@ -89,6 +89,33 @@
     font-weight: 700;
 }
 
+.scrollContainer {
+    flex: 1;
+    overflow-y: auto;
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 2px solid #f1f5f9;
+}
+
+.navigation {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.navBtn {
+    flex: 1;
+    min-width: 0;
+    /* Cho phép text truncate nếu cần */
+    padding: 0.5rem !important;
+    /* Force compact padding */
+}
+
 /* Hide on mobile */
 @media (max-width: 900px) {
     .sidebar {

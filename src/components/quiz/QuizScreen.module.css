@@ -33,7 +33,8 @@
 
 /* Navigation Buttons */
 .navigation {
-    display: flex;
+    display: none;
+    /* Hidden by default on desktop (moved to sidebar) */
     justify-content: space-between;
     gap: 1rem;
 }
@@ -65,25 +66,23 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* Responsive - Tablet */
+/* Responsive - Mobile/Tablet (Sidebar Hidden) */
 @media (max-width: 900px) {
-    .layout {
-        grid-template-columns: 1fr 220px;
-        gap: 1rem;
-    }
-}
-
-/* Responsive - Mobile */
-@media (max-width: 700px) {
     .screen {
         padding: 0.75rem;
     }
 
     .layout {
         grid-template-columns: 1fr;
-        gap: 1rem;
     }
 
+    .navigation {
+        display: flex;
+        /* Show navigation when sidebar is hidden */
+    }
+}
+
+@media (max-width: 600px) {
     .navigation {
         flex-direction: column;
     }

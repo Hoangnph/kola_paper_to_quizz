@@ -37,15 +37,22 @@
 }
 
 .imageContainer {
-    margin-top: 1rem;
-    border-radius: 0.5rem;
+    margin: 1rem auto 0;
+    max-width: 320px;
+    /* Nhỏ lại cho hiện đại */
+    width: 100%;
+    border-radius: 0.75rem;
     overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
 }
 
 .image {
     width: 100%;
     height: auto;
-    border-radius: 0.5rem;
+    display: block;
+    object-fit: contain;
 }
 
 @keyframes slideIn {

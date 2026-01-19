@@ -3,6 +3,7 @@
  * Individual answer option with visual states
  */
 
+import { memo } from 'react';
 import styles from './OptionButton.module.css';
 
 interface OptionButtonProps {
@@ -14,7 +15,7 @@ interface OptionButtonProps {
     onClick: () => void;
 }
 
-export function OptionButton({
+export const OptionButton = memo(function OptionButton({
     letter,
     text,
     isDisabled,
@@ -53,4 +54,4 @@ export function OptionButton({
             </span>
         </div>
     );
-}
+});

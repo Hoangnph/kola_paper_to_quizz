@@ -10,7 +10,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'success' | 'hint';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariant;
-    size?: 'default' | 'large';
+    size?: 'default' | 'large' | 'small';
     icon?: ReactNode;
     children: ReactNode;
 }
@@ -26,7 +26,7 @@ export function Button({
     const classes = [
         styles.btn,
         styles[`btn-${variant}`],
-        size === 'large' ? styles['btn-large'] : '',
+        size === 'large' ? styles['btn-large'] : size === 'small' ? styles['btn-small'] : '',
         className,
     ]
         .filter(Boolean)

@@ -6,7 +6,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo, useCallback, useState, useRef, useEffect } from 'react';
 import type { Question } from '@/lib/types';
 import { useQuiz } from '@/hooks/useQuiz';
 import { ProgressBar } from '../ui/ProgressBar';
@@ -52,15 +52,45 @@ export function QuizScreen({ questions, onComplete, onRestart }: QuizScreenProps
         [state.userAnswers]
     );
 
+    const autoAdvanceTimeoutRef = useRef<NodeJS.Timeout>(null);
+
+    // Clear timeout on unmount or manual navigation
+    useEffect(() => {
+        return () => {
+            if (autoAdvanceTimeoutRef.current) {
+                clearTimeout(autoAdvanceTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    // Clear auto-advance timer when manually navigating
+    useEffect(() => {
+        if (autoAdvanceTimeoutRef.current) {
+            clearTimeout(autoAdvanceTimeoutRef.current);
+        }
+    }, [state.currentIndex]);
+
     const handleSelectAnswer = useCallback((index: number) => {
         selectAnswer(index);
-        // Show confetti if answer is correct
+
+        // Check if answer is correct
         if (questions[state.currentIndex].answer === index) {
             setShowConfetti(true);
-            // Hide after 3 seconds
+
+            // Hide confetti after 3 seconds
             setTimeout(() => setShowConfetti(false), 3000);
+
+            // Auto advance to next question after 1.5s if not last question
+            if (state.currentIndex < questions.length - 1) {
+                // Clear any existing timeout
+                if (autoAdvanceTimeoutRef.current) clearTimeout(autoAdvanceTimeoutRef.current);
+
+                autoAdvanceTimeoutRef.current = setTimeout(() => {
+                    nextQuestion();
+                }, 1500);
+            }
         }
-    }, [selectAnswer, state.currentIndex, questions]);
+    }, [selectAnswer, state.currentIndex, questions, nextQuestion]);
 
     const handleShowResults = useCallback(() => {
         const results = getResults();
@@ -72,11 +102,7 @@ export function QuizScreen({ questions, onComplete, onRestart }: QuizScreenProps
         onRestart();
     }, [reset, onRestart]);
 
-    // Convert Map to array for Sidebar
-    const correctAnswersArray = useMemo(
-        () => Array.from(correctAnswersMap.values()),
-        [correctAnswersMap]
-    );
+
 
     return (
         <div className={styles.screen}>
@@ -92,6 +118,7 @@ export function QuizScreen({ questions, onComplete, onRestart }: QuizScreenProps
                 {/* Main Content */}
                 <main className={styles.main}>
                     <QuestionCard
+                        key={currentQuestion.id}
                         question={currentQuestion}
                         questionNumber={state.currentIndex + 1}
                         userAnswer={state.userAnswers[state.currentIndex]}
@@ -146,6 +173,12 @@ export function QuizScreen({ questions, onComplete, onRestart }: QuizScreenProps
                     userAnswers={state.userAnswers}
                     correctAnswers={correctAnswersMap}
                     onGoToQuestion={goToQuestion}
+                    onNext={nextQuestion}
+                    onPrev={prevQuestion}
+                    isFirst={isFirstQuestion}
+                    isLast={isLastQuestion}
+                    showResultButton={!!(isLastQuestion && allAnswered)}
+                    onShowResult={handleShowResults}
                 />
             </div>
         </div>

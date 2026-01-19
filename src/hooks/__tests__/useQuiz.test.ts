@@ -2,7 +2,7 @@
  * Tests for useQuiz Hook - TDD Approach
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useQuiz } from '../useQuiz';
 import type { Question } from '@/lib/types';

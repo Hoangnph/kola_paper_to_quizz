@@ -61,6 +61,10 @@ Phiên bản mới bao gồm đầy đủ **hiệu ứng động (animations)** 
 | ✅ `Sidebar.tsx` + CSS Module | Hoàn thành |
 | ✅ `QuestionCard.tsx` + CSS Module | Hoàn thành |
 | ✅ `QuizScreen.tsx` + CSS Module | Hoàn thành |
+| ✅ Auto-advance (tự chuyển câu) | Hoàn thành |
+| ✅ Move Navigation to Sidebar (Desktop) | Hoàn thành |
+| ✅ Style Hint Image (Modern & Responsive) | Hoàn thành |
+| ✅ Fix: Hint tự mở khi chuyển câu | Hoàn thành |
 | ✅ `ResultScreen.tsx` + CSS Module | Hoàn thành |
 | ✅ `ReviewList.tsx` + CSS Module | Hoàn thành |
 
@@ -70,6 +74,15 @@ Phiên bản mới bao gồm đầy đủ **hiệu ứng động (animations)** 
 | ✅ Tạo Design System CSS Variables | Hoàn thành |
 | ✅ Wire up `app/page.tsx` với screen transitions | Hoàn thành |
 | ✅ Kiểm tra trên browser | Hoàn thành |
+
+### Phase 6: Optimization & Cleanup ✅
+| Task | Trạng thái |
+|------|------------|
+| ✅ Dọn dẹp file rác và backup | Hoàn thành |
+| ✅ Code Linting & Fix | Hoàn thành |
+| ✅ Áp dụng `React.memo` cho Components | Hoàn thành |
+| ✅ Xác minh hệ thống (Build/Test) | Hoàn thành |
+
 
 ---
 
@@ -153,4 +166,4 @@ npm test
 
 ---
 
-*Cập nhật cuối: 19/01/2026 22:45*
+*Cập nhật cuối: 19/01/2026 23:05*

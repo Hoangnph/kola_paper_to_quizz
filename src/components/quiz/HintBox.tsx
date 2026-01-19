@@ -3,6 +3,7 @@
  * Shows hint text and optional image
  */
 
+import { memo } from 'react';
 import Image from 'next/image';
 import styles from './HintBox.module.css';
 
@@ -12,7 +13,7 @@ interface HintBoxProps {
     isVisible: boolean;
 }
 
-export function HintBox({ hintText, imageUrl, isVisible }: HintBoxProps) {
+export const HintBox = memo(function HintBox({ hintText, imageUrl, isVisible }: HintBoxProps) {
     if (!isVisible) return null;
 
     return (
@@ -38,4 +39,4 @@ export function HintBox({ hintText, imageUrl, isVisible }: HintBoxProps) {
             </div>
         </div>
     );
-}
+});
