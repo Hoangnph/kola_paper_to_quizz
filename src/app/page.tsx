@@ -1,66 +1,82 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+/**
+ * Quiz Tin Học Lớp 4 - Main Page
+ * App with screen transitions: Welcome -> Quiz -> Result -> Review
+ */
+
+'use client';
+
+import { useState, useCallback } from 'react';
+import { quizQuestions } from '@/lib/questions';
+import { useQuiz } from '@/hooks/useQuiz';
+import { WelcomeScreen, QuizScreen, ResultScreen, ReviewList } from '@/components/quiz';
+
+type ScreenType = 'welcome' | 'quiz' | 'result' | 'review';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+  const [screen, setScreen] = useState<ScreenType>('welcome');
+  const [finalScore, setFinalScore] = useState({ score: 0, total: 0 });
+
+  const quiz = useQuiz(quizQuestions);
+
+  // Handlers for screen transitions
+  const handleStartQuiz = useCallback(() => {
+    quiz.reset();
+    setScreen('quiz');
+  }, [quiz]);
+
+  const handleQuizComplete = useCallback((score: number, total: number) => {
+    setFinalScore({ score, total });
+    setScreen('result');
+  }, []);
+
+  const handleRestart = useCallback(() => {
+    quiz.reset();
+    setScreen('welcome');
+  }, [quiz]);
+
+  const handleReview = useCallback(() => {
+    setScreen('review');
+  }, []);
+
+  const handleBackToResult = useCallback(() => {
+    setScreen('result');
+  }, []);
+
+  // Render screens based on state
+  switch (screen) {
+    case 'welcome':
+      return <WelcomeScreen onStart={handleStartQuiz} />;
+
+    case 'quiz':
+      return (
+        <QuizScreen
+          questions={quizQuestions}
+          onComplete={handleQuizComplete}
+          onRestart={handleRestart}
         />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+      );
+
+    case 'result':
+      return (
+        <ResultScreen
+          score={finalScore.score}
+          total={finalScore.total}
+          hintsUsed={quiz.hintsUsedCount}
+          onRestart={handleRestart}
+          onReview={handleReview}
+        />
+      );
+
+    case 'review':
+      return (
+        <ReviewList
+          details={quiz.getResults().details}
+          onBack={handleBackToResult}
+          onRestart={handleRestart}
+        />
+      );
+
+    default:
+      return <WelcomeScreen onStart={handleStartQuiz} />;
+  }
 }

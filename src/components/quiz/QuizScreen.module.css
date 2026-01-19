@@ -1,0 +1,94 @@
+/**
+ * QuizScreen Styles
+ * CSS Module for QuizScreen component
+ */
+
+.screen {
+    min-height: 100vh;
+    background: var(--bg-gradient, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+    padding: 1rem;
+}
+
+/* Progress Section */
+.progressSection {
+    max-width: 1200px;
+    margin: 0 auto 1rem;
+}
+
+/* Main Layout - Two Column */
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Main Content Area */
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Navigation Buttons */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.navigation button {
+    flex: 1;
+    max-width: 200px;
+}
+
+/* Restart Section */
+.restartSection {
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+.restartBtn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.restartBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive - Tablet */
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr 220px;
+        gap: 1rem;
+    }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 700px) {
+    .screen {
+        padding: 0.75rem;
+    }
+
+    .layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .navigation {
+        flex-direction: column;
+    }
+
+    .navigation button {
+        max-width: 100%;
+    }
+}
